@@ -16,9 +16,7 @@ const db = admin.firestore();
  
 app.post('/create',async(req,res)=>{
      try{
-        
         const id = req.body.email;
-        
         const userJson={
             email: req.body.email, 
             userName:req.body.userName
@@ -49,9 +47,7 @@ app.get('/read/all',async(req,res)=>{
 
 app.post('/update',async(req,res)=>{
     try{
-       
        const id = req.body.email;
-       
        const userJson={
            email: req.body.email, 
            userName:req.body.userName
@@ -80,7 +76,7 @@ app.get('/read/:id',async(req,res)=>{
 app.delete('/delete/:id',async(req,res)=>{
     try {
         const userRef = db.collection("users").doc(req.params.id).delete();
-        res.send(userRef)
+        res.send(userRef);
     } 
     catch (error) {
         console.log(error);

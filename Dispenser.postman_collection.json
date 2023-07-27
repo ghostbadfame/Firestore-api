@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "a7c5b32e-92d6-45cb-8211-6058f66b38d6",
+		"name": "Dispenser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25414173"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required field _writeTime\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData._writeTime).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Test that _writeTime has the required sub-fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData._writeTime).to.exist;",
+							"    pm.expect(responseData._writeTime._seconds).to.exist;",
+							"    pm.expect(responseData._writeTime._nanoseconds).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Test _seconds is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData._writeTime._seconds).to.be.a('number');",
+							"  pm.expect(responseData._writeTime._seconds).to.be.greaterThan(-1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Check that _nanoseconds is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData._writeTime._nanoseconds).to.be.a('number');",
+							"  pm.expect(responseData._writeTime._nanoseconds).to.be.at.least(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"nana@gmail.com\",\r\n    \"userName\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"create"
+					]
+				},
+				"description": "Post the data in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Post update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response contains the _writeTime field\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.have.property(\"_writeTime\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Check if _writeTime field has _seconds and _nanoseconds properties\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData._writeTime).to.exist.and.to.be.an('object');",
+							"    pm.expect(responseData._writeTime._seconds).to.exist;",
+							"    pm.expect(responseData._writeTime._nanoseconds).to.exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"The _seconds property is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"",
+							"  pm.expect(responseData._writeTime._seconds).to.be.a('number');",
+							"  pm.expect(responseData._writeTime._seconds).to.be.at.least(0);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Check that _nanoseconds property is a non-negative integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData._writeTime._nanoseconds).to.exist.and.to.be.a('number');",
+							"    pm.expect(responseData._writeTime._nanoseconds).to.be.at.least(0, \"_nanoseconds should be a non-negative integer\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"nana@gmail.com\",\r\n    \"userName\":\"csihsih\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"update"
+					]
+				},
+				"description": "Updating the data with the help of id that is given directly in the body"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/read/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"read",
+						"all"
+					]
+				},
+				"description": "Obtain all data in the database without specifying the id"
+			},
+			"response": []
+		},
+		{
+			"name": "Get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/read/abc@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"read",
+						"abc@gmail.com"
+					]
+				},
+				"description": "We are using email as id here and getting the output with the help as id"
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/delete/nana@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"delete",
+						"nana@gmail.com"
+					]
+				},
+				"description": "Deletes with the help of id"
+			},
+			"response": []
+		}
+	]
+}
